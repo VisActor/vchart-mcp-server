@@ -1,29 +1,45 @@
 {
-  "name": "vchart-mcp-server",
-  "version": "0.1.0",
+  "name": "@visactor/vchart-mcp-server",
+  "version": "0.1.1",
   "description": "A model context server for vchart",
-  "private": true,
   "bin": {
     "vchart-mcp-server": "./build/index.js"
   },
   "files": [
     "build"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VisActor/vchart-mcp-server"
+  },
+  "author": {
+    "name": "VisActor",
+    "url": "https://www.visactor.io/"
+  },
+  "homepage": "https://www.visactor.io",
+  "bugs": "https://github.com/VisActor/vchart-mcp-server/issues",
+  "license": "MIT",
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "prepare": "npm run build",
     "watch": "tsc --watch",
+    "test-tool": "node -e \"const { generateChartByType } = require('./build/utils/generateChart'); generateChartByType('area', { dataTable: [{x:'A',y:10}], xField:'x', yField:'y', chartOutput:'image' }).then(console.log);\"",
     "inspector": "npx @modelcontextprotocol/inspector build/index.js"
   },
   "dependencies": {
     "@visactor/generate-vchart": "^2.0.6",
+    "@visactor/vutils": "^1.0.7",
     "zod": "^3.25.32",
     "zod-to-json-schema": "^3.24.5",
     "@modelcontextprotocol/sdk": "^1.12.0",
     "axios": "^1.10.0"
   },
   "devDependencies": {
-    "@modelcontextprotocol/inspector": "^0.13.0",
+    "@modelcontextprotocol/inspector": "^0.15.0",
     "@types/node": "^20.11.24",
     "typescript": "^5.3.3"
   }

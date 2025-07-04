@@ -13,32 +13,13 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
   CallToolRequestSchema,
-  ListResourcesRequestSchema,
   ListToolsRequestSchema,
-  ReadResourceRequestSchema,
-  ListPromptsRequestSchema,
-  GetPromptRequestSchema,
   McpError,
   ErrorCode,
 } from "@modelcontextprotocol/sdk/types.js";
 
 import * as Charts from "./charts/index";
-import { TOOL_NAME_CHART_TYPE_MAP } from "./utils/constants";
 import { generateChartByType } from "./utils/generateChart";
-
-/**
- * Type alias for a note object.
- */
-type Note = { title: string; content: string };
-
-/**
- * Simple in-memory storage for notes.
- * In a real implementation, this would likely be backed by a database.
- */
-const notes: { [id: string]: Note } = {
-  "1": { title: "First Note", content: "This is note 1" },
-  "2": { title: "Second Note", content: "This is note 2" },
-};
 
 /**
  * Create an MCP server with capabilities for resources (to list/read notes),
@@ -64,7 +45,7 @@ const server = new Server(
  */
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
-    tools: [Object.values(Charts).map((chart) => (chart as any).tool)],
+    tools: Object.values(Charts).map((chart) => (chart as any).tool),
   };
 });
 
@@ -74,8 +55,9 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
  */
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const toolName = request.params.name;
-  const chartType =
-    TOOL_NAME_CHART_TYPE_MAP[toolName as keyof typeof TOOL_NAME_CHART_TYPE_MAP];
+  const chartType = Object.keys(Charts).find(
+    (key) => (Charts as any)[key].tool.name === toolName
+  );
 
   if (!chartType) {
     throw new McpError(
@@ -104,11 +86,44 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
     const res = await generateChartByType(chartType, args);
 
+    if (res && (res as any).spec) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify((res as any).spec, null, 2),
+          },
+        ],
+      };
+    }
+
+    if (res && (res as any).image) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: (res as any).image,
+          },
+        ],
+      };
+    }
+
+    if (res && (res as any).html) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: (res as any).html,
+          },
+        ],
+      };
+    }
+
     return {
       content: [
         {
           type: "text",
-          text: res,
+          text: "Failed to generate chart",
         },
       ],
     };

@@ -1,11 +1,22 @@
 import axios from "axios";
 import { getVmindRequestServer } from "./env";
 import { generateChart } from "@visactor/generate-vchart";
+import { isEmpty, isValid } from "@visactor/vutils";
+
+export function filterValidAttributes(obj: Record<string, any>) {
+  return Object.keys(obj).reduce((res, k) => {
+    if (isValid(obj[k])) {
+      (res as any)[k] = obj[k];
+    }
+
+    return res;
+  }, {});
+}
 
 export async function gentrateChartImageOrHtml(
   type: "html" | "image",
   spec: any,
-  options?: { width?: number; height?: number }
+  options?: { width?: string; height?: string }
 ) {
   const url = getVmindRequestServer();
 
@@ -23,40 +34,172 @@ export async function gentrateChartImageOrHtml(
     }
   );
 
-  return type === "html" ? response.data.htmlUrl : response.data.imageUrl;
+  return type === "html"
+    ? { html: response.data.htmlUrl }
+    : { image: response.data.imageUrl };
 }
 
 export async function generateChartByType(chartType: string, options: any) {
   const {
     xAxis,
     yAxis,
+
+    title,
+    subTitle,
+    titleOrient,
+    xAxisType,
+    xAxisOrient,
+    xAxisTitle,
+    xAxisHasGrid,
+    xAxisHasLabel,
+    xAxisHasTick,
+
+    yAxisType,
+    yAxisOrient,
+    yAxisTitle,
+    yAxisHasGrid,
+    yAxisHasLabel,
+    yAxisHasTick,
+
+    leftYAxisTitle,
+    leftYAxisHasGrid,
+    leftYAxisHasLabel,
+    leftYAxisHasTick,
+
+    rightYAxisTitle,
+    rightYAxisHasGrid,
+    rightYAxisHasLabel,
+    rightYAxisHasTick,
+
+    angleAxisTitle,
+    angleAxisHasGrid,
+    angleAxisHasLabel,
+    angleAxisHasTick,
+    angleAxisType,
+
+    radiusAxisHasGrid,
+    radiusAxisHasLabel,
+    radiusAxisHasTick,
+    radiusAxisType,
+    radiusAxisTitle,
+
     chartOutput,
-    width = 500,
-    height = 500,
+    width,
+    height,
     ...res
   } = options;
 
-  const { spec } = generateChart(chartType, {
-    ...res,
-    ...(xAxis || yAxis
-      ? { axes: [xAxis, yAxis].filter((entry) => !!entry) }
-      : {}),
+  const opts = { ...res };
+  const titleObj = filterValidAttributes({
+    text: title,
+    subText: subTitle,
+    orient: titleOrient,
   });
+  const xAxisObj = filterValidAttributes({
+    type: xAxisType,
+    orient: xAxisOrient,
+    title: xAxisTitle,
+    hasGrid: xAxisHasGrid,
+    hasLabel: xAxisHasLabel,
+    hasTick: xAxisHasTick,
+  });
+  const yAxisObj = filterValidAttributes({
+    type: yAxisType,
+    orient: yAxisOrient,
+    title: yAxisTitle,
+    hasGrid: yAxisHasGrid,
+    hasLabel: yAxisHasLabel,
+    hasTick: yAxisHasTick,
+  });
+  const leftYAxisObj = filterValidAttributes({
+    title: leftYAxisTitle,
+    hasGrid: leftYAxisHasGrid,
+    hasLabel: leftYAxisHasLabel,
+    hasTick: leftYAxisHasTick,
+  });
+  const rightYAxisObj = filterValidAttributes({
+    title: rightYAxisTitle,
+    hasGrid: rightYAxisHasGrid,
+    hasLabel: rightYAxisHasLabel,
+    hasTick: rightYAxisHasTick,
+  });
+  const angleAxisObj = filterValidAttributes({
+    title: angleAxisTitle,
+    hasGrid: angleAxisHasGrid,
+    hasLabel: angleAxisHasLabel,
+    hasTick: angleAxisHasTick,
+    type: angleAxisType,
+  });
+  const radiusAxisObj = filterValidAttributes({
+    hasGrid: radiusAxisHasGrid,
+    hasLabel: radiusAxisHasLabel,
+    hasTick: radiusAxisHasTick,
+    type: radiusAxisType,
+    title: radiusAxisTitle,
+  });
+
+  const cell: Record<string, string> = {};
+
+  [
+    "xField",
+    "yField",
+    "colorField",
+    "categoryField",
+    "valueField",
+    "wordField",
+    "sizeField",
+    "timeField",
+    "sourceField",
+    "targetField",
+    "setsField",
+    "radiusField",
+  ].forEach((fieldName) => {
+    if (isValid(options[fieldName])) {
+      cell[fieldName.replace("Field", "")] = options[fieldName];
+      delete opts[fieldName];
+    }
+  });
+
+  opts.cell = cell;
+
+  if (!isEmpty(titleObj)) {
+    opts.title = titleObj;
+  }
+
+  const axes = [
+    xAxisObj,
+    yAxisObj,
+    leftYAxisObj,
+    rightYAxisObj,
+    angleAxisObj,
+    radiusAxisObj,
+  ];
+
+  if (axes.some((axis) => !isEmpty(axis))) {
+    opts.axes = axes.filter((axis) => !isEmpty(axis));
+  }
+
+  const { spec } = generateChart(options.chartType ?? chartType, opts);
 
   if (!spec) {
     return null;
   }
 
-  if (chartOutput === chartOutput) {
-    if (width) {
+  if (chartOutput === "spec") {
+    if (isValid(width)) {
       spec.width = width;
     }
-    if (height) {
+    if (isValid(height)) {
       spec.height = height;
     }
 
-    return spec;
+    return {
+      spec: spec,
+    };
   }
 
-  const output = gentrateChartImageOrHtml(chartOutput, spec, { width, height });
+  return gentrateChartImageOrHtml(chartOutput, spec, {
+    width: `${width ?? 500}px`,
+    height: `${height ?? 500}px`,
+  });
 }
