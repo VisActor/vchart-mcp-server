@@ -1,0 +1,30 @@
+{
+  "name": "vchart-mcp-server",
+  "version": "0.1.0",
+  "description": "A model context server for vchart",
+  "private": true,
+  "bin": {
+    "vchart-mcp-server": "./build/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "prepare": "npm run build",
+    "watch": "tsc --watch",
+    "inspector": "npx @modelcontextprotocol/inspector build/index.js"
+  },
+  "dependencies": {
+    "@visactor/generate-vchart": "^2.0.6",
+    "zod": "^3.25.32",
+    "zod-to-json-schema": "^3.24.5",
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "axios": "^1.10.0"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.13.0",
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  }
+}
