@@ -18,6 +18,8 @@
 [![npm 版本](https://img.shields.io/npm/v/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
 [![npm 许可证](https://img.shields.io/npm/l/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
 
+</div>
+
 <div align="center">
 
 [English](./README.md) | 简体中文

@@ -19,6 +19,8 @@ A Model Context Protocol (MCP) server for the [@visactor/vchart](https://github.
 [![npm Version](https://img.shields.io/npm/v/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
 [![npm License](https://img.shields.io/npm/l/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
 
+</div>
+
 <div align="center">
 
 English | [简体中文](./README.zh-CN.md)
