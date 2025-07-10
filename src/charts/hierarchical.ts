@@ -25,11 +25,11 @@ const schema = z.object({
   dataTable: z
     .array(z.any())
     .describe(
-      "Hierarchical data for the chart, e.g., [{ category: 'Category 01', value: 10, children: [] }]."
+      "Hierarchical data for the chart, e.g., [{ category: 'Category 0', subCategory: 'Category 01', value: 10}]."
     )
     .nonempty({ message: "Data cannot be empty." }),
 
-  colorField: XFieldSchema,
+  colorField: z.array(XFieldSchema).nonempty(),
   valueField: YFieldSchema,
 
   chartTheme: ThemeSchema,
