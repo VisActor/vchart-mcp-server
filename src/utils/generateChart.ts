@@ -83,7 +83,7 @@ export async function generateChartByType(chartType: string, options: any) {
     radiusAxisType,
     radiusAxisTitle,
 
-    chartOutput,
+    output,
     width,
     height,
     ...res
@@ -185,7 +185,7 @@ export async function generateChartByType(chartType: string, options: any) {
     return null;
   }
 
-  if (chartOutput === "spec") {
+  if (output === "spec") {
     if (isValid(width)) {
       spec.width = width;
     }
@@ -198,7 +198,7 @@ export async function generateChartByType(chartType: string, options: any) {
     };
   }
 
-  return gentrateChartImageOrHtml(chartOutput, spec, {
+  return gentrateChartImageOrHtml(output, spec, {
     width: `${width ?? 500}px`,
     height: `${height ?? 500}px`,
   });

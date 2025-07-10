@@ -30,7 +30,14 @@ import {
 
 const schema = z.object({
   output: ChartOutputSchema,
-  chartType: z.enum(["area", "line", "bar", "waterfall"]),
+  chartType: z.enum([
+    "area",
+    "line",
+    "bar",
+    "waterfall",
+    "ranking_bar",
+    "funnel",
+  ]),
   width: WidthSchema,
   height: HeightSchema,
   dataTable: z
@@ -43,32 +50,38 @@ const schema = z.object({
     .describe("Set to true only when displaying a horizontal bar chart."),
   xField: XFieldSchema,
   yField: YFieldSchema,
-  colorField: ColorFieldSchema.optional(),
-  chartTheme: ThemeSchema.optional(),
-  title: TitleTextSchema.optional(),
-  subTitle: TitleSubTextSchema.optional(),
-  titleOrient: TitleOrientSchema.optional(),
-  xAxisType: XAxisTypeSchema.optional(),
-  xAxisOrient: XAxisOrientSchema.optional(),
-  xAxisTitle: XAxisTitleSchema.optional(),
-  xAxisHasGrid: XAxisHasGridSchema.optional(),
-  xAxisHasLabel: XAxisHasLabelSchema.optional(),
-  xAxisHasTick: XAxisHasTickSchema.optional(),
-  yAxisType: YAxisTypeSchema.optional(),
-  yAxisOrient: YAxisOrientSchema.optional(),
-  yAxisTitle: YAxisTitleSchema.optional(),
-  yAxisHasGrid: YAxisHasGridSchema.optional(),
-  yAxisHasLabel: YAxisHasLabelSchema.optional(),
-  yAxisHasTick: YAxisHasTickSchema.optional(),
-  background: BackgroundSchema.optional(),
-  colors: ColorsSchema.optional(),
-  stackOrPercent: StackSchema.optional(),
+  colorField: ColorFieldSchema,
+  timeField: z
+    .string()
+    .nullish()
+    .describe(
+      "Time field, such as year or month. The x field and time field must be different. this field is required in ranking_bar"
+    ),
+  chartTheme: ThemeSchema,
+  title: TitleTextSchema,
+  subTitle: TitleSubTextSchema,
+  titleOrient: TitleOrientSchema,
+  xAxisType: XAxisTypeSchema,
+  xAxisOrient: XAxisOrientSchema,
+  xAxisTitle: XAxisTitleSchema,
+  xAxisHasGrid: XAxisHasGridSchema,
+  xAxisHasLabel: XAxisHasLabelSchema,
+  xAxisHasTick: XAxisHasTickSchema,
+  yAxisType: YAxisTypeSchema,
+  yAxisOrient: YAxisOrientSchema,
+  yAxisTitle: YAxisTitleSchema,
+  yAxisHasGrid: YAxisHasGridSchema,
+  yAxisHasLabel: YAxisHasLabelSchema,
+  yAxisHasTick: YAxisHasTickSchema,
+  background: BackgroundSchema,
+  colors: ColorsSchema,
+  stackOrPercent: StackSchema,
 });
 
 const tool = {
   name: "generate_cartesian_chart",
   description:
-    "Generates Cartesian coordinate system charts (line, area, bar, waterfall). Area charts are suitable for showing cumulative trends of data over time or categories, while bar charts are ideal for comparing value distributions across different categories.",
+    "Generates Cartesian charts: line (trends over time), area (cumulative totals), bar (category comparison), waterfall (incremental changes), ranking bar (ordered categories), and funnel (visualizes stages in a process or conversion rates).",
   inputSchema: convertZodToJsonSchema(schema),
 };
 

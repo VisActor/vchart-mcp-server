@@ -26,9 +26,19 @@ const schema = z.object({
     .nonempty({
       message: "Data for the progress chart must not be empty.",
     }),
-  chartType: z.enum(["linear_progress", "circular_progress", "gauge"]),
+  chartType: z.enum([
+    "linear_progress",
+    "circular_progress",
+    "gauge",
+    "liquid",
+  ]),
 
-  colorField: XFieldSchema,
+  colorField: z
+    .string()
+    .optional()
+    .describe(
+      "Dimension field, Must exist in the data, required in linear_progress, circular_progress and gauge"
+    ),
   valueField: ProgressFieldSchema,
 
   chartTheme: ThemeSchema,
@@ -43,7 +53,7 @@ const schema = z.object({
 const tool = {
   name: "generate_progress_chart",
   description:
-    "Generates a progress chart for visualizing quantitative values normalized between 0 and 1. Ideal for representing progress, completion rates, or proportional metrics. The gauge chart currently only supports displaying data for a single dimension.",
+    "Generates a progress chart for visualizing quantitative values normalized between 0 and 1. Ideal for representing progress, completion rates, or proportional metrics. The gauge chart and liquid chart currently only supports displaying data for a single dimension.",
   inputSchema: convertZodToJsonSchema(schema),
 };
 

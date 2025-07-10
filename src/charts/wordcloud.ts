@@ -12,45 +12,48 @@ import {
   WidthSchema,
 } from "./common";
 
+// Define the schema for the word cloud chart configuration using Zod
 const schema = z.object({
-  output: ChartOutputSchema,
-  width: WidthSchema,
-  height: HeightSchema,
+  output: ChartOutputSchema, // Output format/schema for the chart
+  width: WidthSchema, // Chart width
+  height: HeightSchema, // Chart height
+  chartType: z.enum(["wordcloud", "venn"]),
+
   dataTable: z
     .array(z.any())
-    .describe(
-      "Data for the word cloud chart, e.g., [{ word: 'TEST', value: 10 }]."
-    )
-    .nonempty({ message: "Word cloud chart data cannot be empty." }),
+    .describe("Data for the chart, e.g., [{ word: 'TEST', value: 10 }].")
+    .nonempty({ message: "data cannot be empty." }), // Data array must not be empty
 
-  wordField: z
+  colorField: z
     .string()
-    .nonempty({ message: "The field for words cannot be empty." })
-    .describe("Field representing words; must exist in the dataset."),
-  sizeField: z
-    .string()
-    .nullish()
+    .nonempty({ message: "The field for words or sets cannot be empty." })
     .describe(
-      "Numeric field representing word frequency or value; must exist in the dataset."
+      "Specifies the field in the dataset that represents each word (for word clouds) or the set (for Venn diagrams). For Venn diagrams, use a comma-separated string to describe the set. This field must exist in the dataset."
     ),
 
-  chartTheme: ThemeSchema,
-  title: TitleTextSchema,
-  subTitle: TitleSubTextSchema,
-  titleOrient: TitleOrientSchema,
+  valueField: z
+    .string()
+    .describe(
+      "Specifies the field representing the metric value. Required for Venn diagrams."
+    ),
 
-  background: BackgroundSchema,
-  colors: ColorsSchema,
+  chartTheme: ThemeSchema, // Chart theme
+  title: TitleTextSchema, // Chart title
+  subTitle: TitleSubTextSchema, // Chart subtitle
+  titleOrient: TitleOrientSchema, // Title orientation
+
+  background: BackgroundSchema, // Chart background
+  colors: ColorsSchema, // Chart colors
 });
 
 const tool = {
-  name: "generate_wordcloud_chart",
+  name: "generate_wordcloud_venn",
   description:
-    "Generate a word cloud chart to visually represent the frequency or importance of words. The size of each word reflects its value, making it easy to identify prominent terms in the dataset.",
+    "Generate a word cloud to visualize word frequency or importance, or a Venn diagram to show relationships such as intersections and unions between sets.",
   inputSchema: convertZodToJsonSchema(schema),
 };
 
-export const wordcloud = {
+export const wordcloud_venn = {
   schema,
   tool,
 };
