@@ -38,6 +38,7 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "type-check": "tsc --noEmit",
     "pre-push": "npm run type-check && npm run lint && npm run test:ci",
+    "commitlint": "commitlint --edit",
     "test-tool": "node -e \"const { generateChartByType } = require('./build/utils/generateChart'); generateChartByType('area', { dataTable: [{x:'A',y:10}], xField:'x', yField:'y', chartOutput:'image' }).then(console.log);\"",
     "inspector": "npx @modelcontextprotocol/inspector build/index.js"
   },
@@ -51,6 +52,8 @@
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@jest/globals": "^30.0.4",
     "@modelcontextprotocol/inspector": "^0.15.0",
     "@types/jest": "^29.5.12",
@@ -58,11 +61,18 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "@eslint/js": "^9.15.0",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.15.0",
     "globals": "^15.0.0",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
