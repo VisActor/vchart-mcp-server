@@ -10,7 +10,6 @@ import {
   TitleSubTextSchema,
   TitleTextSchema,
   WidthSchema,
-  XFieldSchema,
   YFieldSchema,
 } from "./common";
 

@@ -41,9 +41,6 @@ export async function gentrateChartImageOrHtml(
 
 export async function generateChartByType(chartType: string, options: any) {
   const {
-    xAxis,
-    yAxis,
-
     title,
     subTitle,
     titleOrient,

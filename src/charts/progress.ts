@@ -11,7 +11,6 @@ import {
   TitleSubTextSchema,
   TitleTextSchema,
   WidthSchema,
-  XFieldSchema,
 } from "./common";
 
 const schema = z.object({

@@ -17,7 +17,6 @@ import {
   XAxisHasTickSchema,
   XAxisOrientSchema,
   XAxisTitleSchema,
-  XAxisTypeSchema,
   XFieldSchema,
   YAxisHasGridSchema,
   YAxisHasLabelSchema,
