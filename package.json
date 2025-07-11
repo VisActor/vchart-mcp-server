@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-mcp-server",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A model context server for vchart",
   "bin": {
     "vchart-mcp-server": "./build/index.js"
@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
-    "@visactor/generate-vchart": "^2.0.7",
+    "@visactor/generate-vchart": "^2.0.8",
     "@visactor/vutils": "^1.0.7",
     "axios": "^1.10.0",
     "undici": "^7.11.0",
