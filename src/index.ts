@@ -9,17 +9,17 @@
  * - Summarizing all notes via a prompt
  */
 
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
   McpError,
   ErrorCode,
-} from "@modelcontextprotocol/sdk/types.js";
+} from '@modelcontextprotocol/sdk/types.js';
 
-import * as Charts from "./charts/index";
-import { generateChartByType } from "./utils/generateChart";
+import * as Charts from './charts/index';
+import { generateChartByType } from './utils/generateChart';
 
 /**
  * Create an MCP server with capabilities for resources (to list/read notes),
@@ -27,8 +27,8 @@ import { generateChartByType } from "./utils/generateChart";
  */
 const server = new Server(
   {
-    name: "vchart-mcp-server",
-    version: "0.1.0",
+    name: 'vchart-mcp-server',
+    version: '0.1.3',
   },
   {
     capabilities: {
@@ -45,7 +45,7 @@ const server = new Server(
  */
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
-    tools: Object.values(Charts).map((chart) => (chart as any).tool),
+    tools: Object.values(Charts).map(chart => (chart as any).tool),
   };
 });
 
@@ -53,10 +53,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
  * Handler for the create_note tool.
  * Creates a new note with the provided title and content, and returns success message.
  */
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
+server.setRequestHandler(CallToolRequestSchema, async request => {
   const toolName = request.params.name;
   const chartType = Object.keys(Charts).find(
-    (key) => (Charts as any)[key].tool.name === toolName
+    key => (Charts as any)[key].tool.name === toolName
   );
 
   if (!chartType) {
@@ -90,7 +90,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return {
         content: [
           {
-            type: "text",
+            type: 'text',
             text: JSON.stringify((res as any).spec, null, 2),
           },
         ],
@@ -101,7 +101,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return {
         content: [
           {
-            type: "text",
+            type: 'text',
             text: (res as any).image,
           },
         ],
@@ -112,7 +112,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return {
         content: [
           {
-            type: "text",
+            type: 'text',
             text: (res as any).html,
           },
         ],
@@ -122,17 +122,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     return {
       content: [
         {
-          type: "text",
-          text: "Failed to generate chart",
+          type: 'text',
+          text: 'Failed to generate chart',
         },
       ],
     };
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   } catch (error: any) {
-    if (error instanceof McpError) throw error;
+    if (error instanceof McpError) {
+      throw error;
+    }
     throw new McpError(
       ErrorCode.InternalError,
-      `Failed to generate chart: ${error?.message || "Unknown error."}`
+      `Failed to generate chart: ${error?.message || 'Unknown error.'}`
     );
   }
 });
@@ -146,7 +148,7 @@ async function main() {
   await server.connect(transport);
 }
 
-main().catch((error) => {
-  console.error("Server error:", error);
+main().catch(error => {
+  console.error('Server error:', error);
   process.exit(1);
 });
