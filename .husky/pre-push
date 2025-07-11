@@ -1,0 +1,39 @@
+#!/bin/sh
+
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 Running pre-push checks..."
+
+# 1. 类型检查
+echo "📝 Type checking..."
+npm run type-check
+if [ $? -ne 0 ]; then
+    echo "❌ Type check failed. Push aborted."
+    exit 1
+fi
+
+# 2. 代码风格检查
+echo "🎨 Linting..."
+npm run lint
+if [ $? -ne 0 ]; then
+    echo "❌ Linting failed. Push aborted."
+    exit 1
+fi
+
+# 3. 构建测试
+echo "🏗️ Building..."
+npm run build
+if [ $? -ne 0 ]; then
+    echo "❌ Build failed. Push aborted."
+    exit 1
+fi
+
+# 4. 运行测试
+echo "🧪 Running tests..."
+npm run test:ci
+if [ $? -ne 0 ]; then
+    echo "❌ Tests failed. Push aborted."
+    exit 1
+fi
+
+echo "✅ All checks passed! Pushing..."
