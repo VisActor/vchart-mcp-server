@@ -280,6 +280,14 @@ Used to generate heatmaps, suitable for displaying data density and distribution
 
 ## Installation
 
+### Installing via Smithery
+
+To install vchart-mcp-server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@VisActor/vchart-mcp-server):
+
+```bash
+npx -y @smithery/cli install @VisActor/vchart-mcp-server --client claude
+```
+
 ### Prerequisites
 
 - Node.js 18 or higher
