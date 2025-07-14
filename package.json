@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-mcp-server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A model context server for vchart",
   "bin": {
     "vchart-mcp-server": "./build/index.js"
