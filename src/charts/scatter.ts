@@ -37,7 +37,7 @@ const schema = z.object({
 
   xField: YFieldSchema,
   yField: YFieldSchema,
-  sizeField: z.string().nullish().describe('Numeric field for bubble size.'),
+  sizeField: z.string().optional().describe('Numeric field for bubble size.'),
   colorField: ColorFieldSchema,
 
   chartTheme: ThemeSchema,
