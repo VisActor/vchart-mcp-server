@@ -15,7 +15,7 @@ import {
 
 export const startStreamableServer = async (
   createServer: () => Server,
-  endpoint = '/mcp',
+  endpoint = '/streamable',
   port = 3001,
   eventStore: EventStore = new InMemoryEventStore()
 ): Promise<void> => {

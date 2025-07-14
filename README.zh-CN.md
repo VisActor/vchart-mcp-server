@@ -26,6 +26,24 @@
 
 </div>
 
+## 目录
+
+- [功能特性](#功能特性)
+  - [图表输出格式](#图表输出格式)
+  - [所有图表都支持的公共参数](#所有图表都支持的公共参数)
+  - [支持的图表类型和工具](#支持的图表类型和工具)
+- [使用方法](#使用方法)
+- [使用SSE或Streamable传输方式运行](#使用sse或streamable传输方式运行)
+  - [安装与启动](#安装与启动)
+  - [其他CLI配置](#其他cli配置)
+- [AI 对话中的使用示例](#ai-对话中的使用示例)
+- [开发](#开发)
+- [环境变量](#环境变量)
+- [私有化开发](#私有化开发)
+- [许可证](#许可证)
+- [贡献](#贡献)
+- [相关项目](#相关项目)
+
 ## 功能特性
 
 ### 图表输出格式
@@ -241,28 +259,6 @@
 | `yAxisHasLabel` | Y 轴是否显示标签   | `boolean`              | 可选     |
 | `yAxisHasTick`  | Y 轴是否显示刻度   | `boolean`              | 可选     |
 
-## 安装
-
-### 先决条件
-
-- Node.js 18 或更高版本
-- npm 或 yarn
-
-### 从 npm 安装
-
-```bash
-npm install -g @visactor/vchart-mcp-server
-```
-
-### 从源码安装
-
-```bash
-git clone https://github.com/VisActor/vchart-mcp-server.git
-cd vchart-mcp-server
-npm install
-npm run build
-```
-
 ## 使用方法
 
 要在桌面应用（如 Trae、Claude、VSCode、Cline、Cherry Studio、Cursor 等）中使用，请添加以下 MCP 服务器配置：
@@ -291,6 +287,47 @@ npm run build
     }
   }
 }
+```
+
+## 使用SSE或Streamable传输方式运行
+
+### 安装与启动
+
+全局安装`@visactor/vchart-mcp-server`
+
+```bash
+npm install -g @visactor/vchart-mcp-server
+```
+
+启动server:
+
+```bash
+# For SSE transport (default endpoint: /sse)
+mcp-server-chart --transport sse
+
+# For Streamable transport (default endpoint: /streamable)
+mcp-server-chart --transport streamable
+```
+
+Then you can access the server at:
+
+- SSE transport: `http://localhost:3001/sse`
+- Streamable transport: `http://localhost:3001/streamable`
+
+### 其他CLI配置
+
+```
+Options:
+  -t, --transport <type>   Transport type (stdio, sse, streamable) [default: stdio]
+  -p, --port <port>        Port number for HTTP-based transports [default: 3000]
+  -e, --endpoint <path>    Endpoint path for HTTP-based transports [default: /message]
+  -h, --help              Show this help message
+
+Examples:
+  node index.js                                    # Start with stdio transport
+  node index.js -t sse -p 3000                    # Start with SSE transport on port 3000
+  node index.js -t sse -p 3000 -e /api/sse       # Start with SSE transport on custom endpoint
+  node index.js -t streamable -p 3001 -e /stream  # Start with streamable transport on custom endpoint
 ```
 
 ## AI 对话中的使用示例
@@ -379,6 +416,10 @@ npm run build
 
 ## 开发
 
+### 先决条件
+
+- Node.js 版本 >= 22.7.5
+
 ### 构建
 
 ```bash
@@ -409,7 +450,20 @@ npm run inspector
 npm run inspector
 ```
 
-Inspector 在 `http://localhost:3000` 提供 Web 界面，用于测试工具和调试。
+### 在AI编辑器中测试
+
+在 AI 编辑器中测试 MCP 服务器时，可以使用以下配置：
+
+```json
+{
+  "mcpServers": {
+    "vchart-mcp-server": {
+      "command": "node",
+      "args": ["/Users/path/to/your/project/vchart-mcp-server/build/index.js"]
+    }
+  }
+}
+```
 
 ## 环境变量
 
