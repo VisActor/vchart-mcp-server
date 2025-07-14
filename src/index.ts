@@ -4,6 +4,7 @@ import { createMCPServer } from './server';
 import { startSSEServer } from './services/sse';
 import { startStdioServer } from './services/stdio';
 import { startStreamableServer } from './services/streamable';
+import { VERSION } from './utils/version';
 
 type TransportType = 'stdio' | 'sse' | 'streamable';
 
@@ -57,7 +58,7 @@ function parseArgs() {
  */
 function showHelp() {
   console.log(`
-VChart MCP Server v0.1.3
+VChart MCP Server v${VERSION}
 Chart generation server with multiple transport modes
 
 Usage: node index.js [options]

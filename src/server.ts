@@ -8,6 +8,7 @@ import {
 
 import * as Charts from './charts/index';
 import { generateChartByType } from './utils/generateChart';
+import { VERSION } from './utils/version';
 
 /**
  * Create an MCP server with chart generation capabilities
@@ -16,7 +17,7 @@ export function createMCPServer() {
   const server = new Server(
     {
       name: 'vchart-mcp-server',
-      version: '0.1.3',
+      version: VERSION,
     },
     {
       capabilities: {
