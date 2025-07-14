@@ -17,6 +17,7 @@
 [![MCP Server](https://badge.mcpx.dev?type=server 'MCP Server')](https://modelcontextprotocol.io/)
 [![npm 版本](https://img.shields.io/npm/v/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
 [![npm 许可证](https://img.shields.io/npm/l/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
+[![smithery badge](https://smithery.ai/badge/@visactor/vchart-mcp-server)](https://smithery.ai/server/@visactor/vchart-mcp-server)
 
 </div>
 
@@ -287,6 +288,14 @@
     }
   }
 }
+```
+
+### 通过 Smithery 安装
+
+要通过 [Smithery](https://smithery.ai/server/@VisActor/vchart-mcp-server) 自动为 Claude Desktop 安装 vchart-mcp-server，请运行：
+
+```bash
+npx -y @smithery/cli install @VisActor/vchart-mcp-server --client claude
 ```
 
 ## 使用SSE或Streamable传输方式运行

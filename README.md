@@ -18,6 +18,7 @@ A Model Context Protocol (MCP) server for the [@visactor/vchart](https://github.
 [![MCP Server](https://badge.mcpx.dev?type=server 'MCP Server')](https://modelcontextprotocol.io/)
 [![npm Version](https://img.shields.io/npm/v/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
 [![npm License](https://img.shields.io/npm/l/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
+[![smithery badge](https://smithery.ai/badge/@visactor/vchart-mcp-server)](https://smithery.ai/server/@visactor/vchart-mcp-server)
 
 </div>
 
@@ -258,7 +259,6 @@ Generates heatmaps, suitable for displaying data density and distribution.
 | `yAxisHasGrid`  | Show Y axis grid lines | `boolean`              | Optional |
 | `yAxisHasLabel` | Show Y axis labels     | `boolean`              | Optional |
 | `yAxisHasTick`  | Show Y axis ticks      | `boolean`              | Optional |
-
 
 ## Usage
 
