@@ -15,7 +15,7 @@
 
 A Model Context Protocol (MCP) server for the [@visactor/vchart](https://github.com/VisActor/VChart) that enables AI assistants to generate interactive charts and visualizations.
 
-[![MCP Server](https://badge.mcpx.dev?type=server "MCP Server")](https://modelcontextprotocol.io/)
+[![MCP Server](https://badge.mcpx.dev?type=server 'MCP Server')](https://modelcontextprotocol.io/)
 [![npm Version](https://img.shields.io/npm/v/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
 [![npm License](https://img.shields.io/npm/l/@visactor/vchart-mcp-server.svg)](https://www.npmjs.com/package/@visactor/vchart-mcp-server)
 
@@ -27,6 +27,22 @@ English | [简体中文](./README.zh-CN.md)
 
 </div>
 
+## Table of Contents
+
+- [Features](#features)
+  - [Chart Output Formats](#chart-output-formats)
+  - [Common Parameters Supported by All Charts](#common-parameters-supported-by-all-charts)
+  - [Supported Chart Types and Tools](#supported-chart-types-and-tools)
+- [Usage](#usage)
+- [Running with SSE or Streamable Transport](#running-with-sse-or-streamable-transport)
+- [Example Usage in AI Conversations](#example-usage-in-ai-conversations)
+- [Development](#development)
+- [Environment Variables](#environment-variables)
+- [Private Deployment](#private-deployment)
+- [License](#license)
+- [Contributing](#contributing)
+- [Related Projects](#related-projects)
+
 ## Features
 
 ### Chart Output Formats
@@ -34,279 +50,215 @@ English | [简体中文](./README.zh-CN.md)
 Each chart can be generated in multiple formats:
 
 - **Image** - PNG/JPG image format for embedding (default)
-- **Spec** - VChart specification object for programmatic use
+- **Spec** - VChart spec object for programmatic use
 - **HTML** - Interactive HTML chart for web display
 
 ### Common Parameters Supported by All Charts
 
-| Parameter     | Description         | Type/Options                              | Default   |
-| ------------- | ------------------- | ----------------------------------------- | --------- |
-| `output`      | Output format       | `"spec"` &#124; `"image"` &#124; `"html"` | `"image"` |
-| `width`       | Chart width         | Number                                    | `500`     |
-| `height`      | Chart height        | Number                                    | `500`     |
-| `title`       | Chart title         | String                                    | Optional  |
-| `subTitle`    | Chart subtitle      | String                                    | Optional  |
-| `titleOrient` | Title position      | String                                    | Optional  |
-| `chartTheme`  | Chart theme         | String                                    | Optional  |
-| `background`  | Background color    | String                                    | Optional  |
-| `colors`      | Color configuration | Array/String                              | Optional  |
+| Parameter     | Description      | Type/Options                              | Default   |
+| ------------- | ---------------- | ----------------------------------------- | --------- |
+| `output`      | Output format    | `"spec"` &#124; `"image"` &#124; `"html"` | `"image"` |
+| `width`       | Chart width      | Number                                    | `500`     |
+| `height`      | Chart height     | Number                                    | `500`     |
+| `title`       | Chart title      | String                                    | Optional  |
+| `subTitle`    | Chart subtitle   | String                                    | Optional  |
+| `titleOrient` | Title position   | String                                    | Optional  |
+| `chartTheme`  | Chart theme      | String                                    | Optional  |
+| `background`  | Background color | String                                    | Optional  |
+| `colors`      | Color palette    | Array/String                              | Optional  |
 
 ### Supported Chart Types and Tools
 
 #### `generate_cartesian_chart`
 
-Used to generate Cartesian coordinate system charts, including area charts, bar charts, line charts, and waterfall charts.
+Generates Cartesian coordinate system charts, including area, bar, line, waterfall, funnel, and animated ranking bar charts.
 
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `xField` - X-axis field name (required)
-- `yField` - Y-axis field name (required)
-- `chartType` - Chart type: "line" | "area" | "bar" | "waterfall" (required)
-- `colorField` - Color mapping field (optional)
-- `stackOrPercent` - Stack or percentage mode (optional)
-- `xAxisType` - X-axis type (optional)
-- `xAxisOrient` - X-axis position (optional)
-- `xAxisTitle` - X-axis title (optional)
-- `xAxisHasGrid` - Whether X-axis shows grid lines (optional)
-- `xAxisHasLabel` - Whether X-axis shows labels (optional)
-- `xAxisHasTick` - Whether X-axis shows ticks (optional)
-- `yAxisType` - Y-axis type (optional)
-- `yAxisOrient` - Y-axis position (optional)
-- `yAxisTitle` - Y-axis title (optional)
-- `yAxisHasGrid` - Whether Y-axis shows grid lines (optional)
-- `yAxisHasLabel` - Whether Y-axis shows labels (optional)
-- `yAxisHasTick` - Whether Y-axis shows ticks (optional)
+| Parameter        | Description                                   | Type                                                                                                  | Required |
+| ---------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------- | -------- |
+| `dataTable`      | Data object array                             | Array                                                                                                 | Yes      |
+| `chartType`      | Chart type                                    | `"line"` &#124; `"area"` &#124; `"bar"` &#124; `"waterfall"` &#124; `"funnel"` &#124; `"ranking_bar"` | Yes      |
+| `xField`         | X axis field name                             | `string`                                                                                              | Yes      |
+| `yField`         | Y axis field name                             | `string`                                                                                              | Yes      |
+| `colorField`     | Color mapping field                           | `string`                                                                                              | Optional |
+| `timeField`      | Time field for animated ranking bar chart     | `string`                                                                                              | Optional |
+| `stackOrPercent` | Stack or percent mode                         | `"stack"` &#124; `"percent"`                                                                          | Optional |
+| `transpose`      | Display bar chart horizontally (as bar chart) | `boolean`                                                                                             | Optional |
+| `xAxisType`      | X axis type                                   | `"band"` &#124; `"linear"`                                                                            | Optional |
+| `xAxisOrient`    | X axis position                               | `"top"` &#124; `"bottom"`                                                                             | Optional |
+| `xAxisTitle`     | X axis title                                  | `string`                                                                                              | Optional |
+| `xAxisHasGrid`   | Show X axis grid lines                        | `boolean`                                                                                             | Optional |
+| `xAxisHasLabel`  | Show X axis labels                            | `boolean`                                                                                             | Optional |
+| `xAxisHasTick`   | Show X axis ticks                             | `boolean`                                                                                             | Optional |
+| `yAxisType`      | Y axis type                                   | `"band"` &#124; `"linear"`                                                                            | Optional |
+| `yAxisOrient`    | Y axis position                               | `"left"` &#124; `"right"`                                                                             | Optional |
+| `yAxisTitle`     | Y axis title                                  | `string`                                                                                              | Optional |
+| `yAxisHasGrid`   | Show Y axis grid lines                        | `boolean`                                                                                             | Optional |
+| `yAxisHasLabel`  | Show Y axis labels                            | `boolean`                                                                                             | Optional |
+| `yAxisHasTick`   | Show Y axis ticks                             | `boolean`                                                                                             | Optional |
 
 #### `generate_polar_chart`
 
-Used to generate polar coordinate system charts, including radar charts and rose charts.
+Generates polar coordinate system charts, including radar, rose, and pie charts.
 
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `categoryField` - Category field name (required)
-- `valueField` - Value field name (required)
-- `chartType` - Chart type: "radar" | "rose" | "pie" (required)
-- `colorField` - Color mapping field (optional)
-- `angleAxisTitle` - Angle axis title (optional)
-- `angleAxisHasGrid` - Whether angle axis shows grid lines (optional)
-- `angleAxisHasLabel` - Whether angle axis shows labels (optional)
-- `angleAxisHasTick` - Whether angle axis shows ticks (optional)
-- `angleAxisType` - Angle axis type (optional)
-- `radiusAxisTitle` - Radius axis title (optional)
-- `radiusAxisHasGrid` - Whether radius axis shows grid lines (optional)
-- `radiusAxisHasLabel` - Whether radius axis shows labels (optional)
-- `radiusAxisHasTick` - Whether radius axis shows ticks (optional)
-- `radiusAxisType` - Radius axis type (optional)
+| Parameter            | Description                 | Type/Options                             | Required |
+| -------------------- | --------------------------- | ---------------------------------------- | -------- |
+| `dataTable`          | Data object array           | Array                                    | Yes      |
+| `chartType`          | Chart type                  | `"radar"` &#124; `"rose"` &#124; `"pie"` | Yes      |
+| `categoryField`      | Category field name         | `string`                                 | Yes      |
+| `valueField`         | Value field name            | `string`                                 | Yes      |
+| `colorField`         | Color mapping field         | `string`                                 | Optional |
+| `angleAxisTitle`     | Angle axis title            | `string`                                 | Optional |
+| `angleAxisHasGrid`   | Show angle axis grid lines  | `boolean`                                | Optional |
+| `angleAxisHasLabel`  | Show angle axis labels      | `boolean`                                | Optional |
+| `angleAxisHasTick`   | Show angle axis ticks       | `boolean`                                | Optional |
+| `angleAxisType`      | Angle axis type             | `"band"` &#124; `"linear"`               | Optional |
+| `radiusAxisTitle`    | Radius axis title           | `string`                                 | Optional |
+| `radiusAxisHasGrid`  | Show radius axis grid lines | `boolean`                                | Optional |
+| `radiusAxisHasLabel` | Show radius axis labels     | `boolean`                                | Optional |
+| `radiusAxisHasTick`  | Show radius axis ticks      | `boolean`                                | Optional |
+| `radiusAxisType`     | Radius axis type            | `"band"` &#124; `"linear"`               | Optional |
 
 #### `generate_hierarchical_chart`
 
-Used to generate hierarchical structure charts, including treemap, circle packing, and sunburst charts.
+Generates hierarchical charts, including treemap, circle packing, and sunburst charts.
 
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `chartType` - Chart type: "sunburst" | "treemap" | "circle_packing" (required)
-- `colorField` - Color mapping field (optional)
+| Parameter    | Description         | Type/Options                                              | Required |
+| ------------ | ------------------- | --------------------------------------------------------- | -------- |
+| `dataTable`  | Data object array   | Array                                                     | Yes      |
+| `chartType`  | Chart type          | `"sunburst"` &#124; `"treemap"` &#124; `"circle_packing"` | Yes      |
+| `colorField` | Color mapping field | `string`                                                  | Yes      |
+| `valueField` | Value mapping field | `string`                                                  | Yes      |
 
 #### `generate_progress_chart`
 
-Generate progress bar charts, including linear progress bars, circular progress bars, and gauge charts.
+Generates progress charts, including circular, linear, gauge, and liquid charts.
+
+| Parameter    | Description                                                   | Type/Options                                                                        | Required |
+| ------------ | ------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------- |
+| `dataTable`  | Data object array                                             | Array                                                                               | Yes      |
+| `chartType`  | Chart type                                                    | `"linear_progress"` &#124; `"circular_progress"` &#124; `"gauge"` &#124; `"liquid"` | Yes      |
+| `valueField` | Progress value field name                                     | `string`                                                                            | Yes      |
+| `colorField` | Color mapping field (optional for liquid, required otherwise) | `string`                                                                            | Optional |
+
+#### `generate_wordcloud_venn`
+
+Generates word cloud or Venn diagrams, suitable for displaying keywords and frequencies in text data.
 
 **Parameters:**
 
-- `dataTable` - Array of data objects (required)
-- `chartType` - Chart type: "linear_progress" | "circular_progress" | "gauge" (required)
-- `valueField` - Value field name (required)
-- `colorField` - Color mapping field (optional)
-
-#### `generate_wordcloud_chart`
-
-Used to generate word cloud charts, suitable for displaying text data keywords and frequencies.
-
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `wordField` - Text field name (required)
-- `sizeField` - Value field name (optional)
+| Parameter    | Description                          | Type/Options                  | Required |
+| ------------ | ------------------------------------ | ----------------------------- | -------- |
+| `dataTable`  | Data object array                    | Array                         | Yes      |
+| `chartType`  | Chart type                           | `"wordcloud"` &#124; `"venn"` | Yes      |
+| `colorField` | Text field or Venn set field name    | `string`                      | Yes      |
+| `valueField` | Value field name (required for Venn) | `string`                      | Optional |
 
 #### `generate_range_column_chart`
 
-Generate horizontal range column charts, suitable for displaying data ranges and comparisons.
+Generates horizontal range bar charts, suitable for displaying data ranges and comparisons.
 
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `categoryField` - Category field name (required)
-- `valueField` - Value field name (required)
-- `colorField` - Color mapping field (optional)
-- `xAxisType` - X-axis type (optional)
-- `xAxisOrient` - X-axis position (optional)
-- `xAxisTitle` - X-axis title (optional)
-- `xAxisHasGrid` - Whether X-axis shows grid lines (optional)
-- `xAxisHasLabel` - Whether X-axis shows labels (optional)
-- `xAxisHasTick` - Whether X-axis shows ticks (optional)
-- `yAxisType` - Y-axis type (optional)
-- `yAxisOrient` - Y-axis position (optional)
-- `yAxisTitle` - Y-axis title (optional)
-- `yAxisHasGrid` - Whether Y-axis shows grid lines (optional)
-- `yAxisHasLabel` - Whether Y-axis shows labels (optional)
-- `yAxisHasTick` - Whether Y-axis shows ticks (optional)
-
-#### `generate_ranking_bar_chart`
-
-Used to generate ranking bar charts, suitable for displaying data rankings and comparisons.
-
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `categoryField` - Category field name (required)
-- `valueField` - Value field name (required)
-- `colorField` - Color mapping field (optional)
+| Parameter       | Description            | Type/Options           | Required |
+| --------------- | ---------------------- | ---------------------- | -------- |
+| `dataTable`     | Data object array      | `any[]`                | Yes      |
+| `xField`        | Category field name    | `string`               | Yes      |
+| `yField`        | Value field names      | `[string, string]`     | Yes      |
+| `colorField`    | Color mapping field    | `string`               | Optional |
+| `xAxisType`     | X axis type            | `"band"` \| `"linear"` | Optional |
+| `xAxisOrient`   | X axis position        | `"top"` \| `"bottom"`  | Optional |
+| `xAxisTitle`    | X axis title           | `string`               | Optional |
+| `xAxisHasGrid`  | Show X axis grid lines | `boolean`              | Optional |
+| `xAxisHasLabel` | Show X axis labels     | `boolean`              | Optional |
+| `xAxisHasTick`  | Show X axis ticks      | `boolean`              | Optional |
+| `yAxisType`     | Y axis type            | `"band"` \| `"linear"` | Optional |
+| `yAxisOrient`   | Y axis position        | `"left"` \| `"right"`  | Optional |
+| `yAxisTitle`    | Y axis title           | `string`               | Optional |
+| `yAxisHasGrid`  | Show Y axis grid lines | `boolean`              | Optional |
+| `yAxisHasLabel` | Show Y axis labels     | `boolean`              | Optional |
+| `yAxisHasTick`  | Show Y axis ticks      | `boolean`              | Optional |
 
 #### `generate_dual_axis_chart`
 
-Dual-axis combination chart for comparing two indicators with different scales.
+Combination chart with two Y axes, for comparing two metrics with different units.
 
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `xField` - X-axis field name (required)
-- `yField` - Array of two Y-axis field names (required)
-- `colorField` - Color mapping field (optional)
-- `stackOrPercent` - Stack or percentage mode (optional)
-- `xAxisOrient` - X-axis position (optional)
-- `xAxisTitle` - X-axis title (optional)
-- `xAxisHasGrid` - Whether X-axis shows grid lines (optional)
-- `xAxisHasLabel` - Whether X-axis shows labels (optional)
-- `xAxisHasTick` - Whether X-axis shows ticks (optional)
-- `leftYAxisTitle` - Left Y-axis title (optional)
-- `leftYAxisHasGrid` - Whether left Y-axis shows grid lines (optional)
-- `leftYAxisHasLabel` - Whether left Y-axis shows labels (optional)
-- `leftYAxisHasTick` - Whether left Y-axis shows ticks (optional)
-- `rightYAxisTitle` - Right Y-axis title (optional)
-- `rightYAxisHasGrid` - Whether right Y-axis shows grid lines (optional)
-- `rightYAxisHasLabel` - Whether right Y-axis shows labels (optional)
-- `rightYAxisHasTick` - Whether right Y-axis shows ticks (optional)
+| Parameter            | Description             | Type/Options             | Required |
+| -------------------- | ----------------------- | ------------------------ | -------- |
+| `dataTable`          | Data object array       | `any[]`                  | Yes      |
+| `xField`             | X axis field name       | `string`                 | Yes      |
+| `yField`             | Two Y axis field names  | `[string, string]`       | Yes      |
+| `colorField`         | Color mapping field     | `string`                 | Optional |
+| `stackOrPercent`     | Stack or percent mode   | `"stack"` \| `"percent"` | Optional |
+| `xAxisOrient`        | X axis position         | `"top"` \| `"bottom"`    | Optional |
+| `xAxisTitle`         | X axis title            | `string`                 | Optional |
+| `xAxisHasGrid`       | Show X axis grid lines  | `boolean`                | Optional |
+| `xAxisHasLabel`      | Show X axis labels      | `boolean`                | Optional |
+| `xAxisHasTick`       | Show X axis ticks       | `boolean`                | Optional |
+| `leftYAxisTitle`     | Left Y axis title       | `string`                 | Optional |
+| `leftYAxisHasGrid`   | Left Y axis grid lines  | `boolean`                | Optional |
+| `leftYAxisHasLabel`  | Left Y axis labels      | `boolean`                | Optional |
+| `leftYAxisHasTick`   | Left Y axis ticks       | `boolean`                | Optional |
+| `rightYAxisTitle`    | Right Y axis title      | `string`                 | Optional |
+| `rightYAxisHasGrid`  | Right Y axis grid lines | `boolean`                | Optional |
+| `rightYAxisHasLabel` | Right Y axis labels     | `boolean`                | Optional |
+| `rightYAxisHasTick`  | Right Y axis ticks      | `boolean`                | Optional |
 
 #### `generate_scatter_chart`
 
-Used to display correlations between two variables, suitable for discovering patterns and outliers in data.
+Displays the relationship between two variables, suitable for discovering patterns and outliers.
 
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `xField` - X-axis field name (required)
-- `yField` - Y-axis field name (required)
-- `colorField` - Color mapping field (optional)
-- `sizeField` - Size mapping field (optional)
-- `xAxisType` - X-axis type (optional)
-- `xAxisOrient` - X-axis position (optional)
-- `xAxisTitle` - X-axis title (optional)
-- `xAxisHasGrid` - Whether X-axis shows grid lines (optional)
-- `xAxisHasLabel` - Whether X-axis shows labels (optional)
-- `xAxisHasTick` - Whether X-axis shows ticks (optional)
-- `yAxisType` - Y-axis type (optional)
-- `yAxisOrient` - Y-axis position (optional)
-- `yAxisTitle` - Y-axis title (optional)
-- `yAxisHasGrid` - Whether Y-axis shows grid lines (optional)
-- `yAxisHasLabel` - Whether Y-axis shows labels (optional)
-- `yAxisHasTick` - Whether Y-axis shows ticks (optional)
-
-#### `generate_funnel_chart`
-
-Used to display process data conversion rates, suitable for analyzing user behavior and sales funnels.
-
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `xField` - Category field name (required)
-- `yField` - Value field name (required)
-- `colorField` - Color mapping field (optional)
+| Parameter       | Description            | Type/Options           | Required |
+| --------------- | ---------------------- | ---------------------- | -------- |
+| `dataTable`     | Data object array      | `any[]`                | Yes      |
+| `xField`        | X axis field name      | `string`               | Yes      |
+| `yField`        | Y axis field name      | `string`               | Yes      |
+| `colorField`    | Color mapping field    | `string`               | Optional |
+| `sizeField`     | Size mapping field     | `string`               | Optional |
+| `xAxisType`     | X axis type            | `"band"` \| `"linear"` | Optional |
+| `xAxisOrient`   | X axis position        | `"top"` \| `"bottom"`  | Optional |
+| `xAxisTitle`    | X axis title           | `string`               | Optional |
+| `xAxisHasGrid`  | Show X axis grid lines | `boolean`              | Optional |
+| `xAxisHasLabel` | Show X axis labels     | `boolean`              | Optional |
+| `xAxisHasTick`  | Show X axis ticks      | `boolean`              | Optional |
+| `yAxisType`     | Y axis type            | `"band"` \| `"linear"` | Optional |
+| `yAxisOrient`   | Y axis position        | `"left"` \| `"right"`  | Optional |
+| `yAxisTitle`    | Y axis title           | `string`               | Optional |
+| `yAxisHasGrid`  | Show Y axis grid lines | `boolean`              | Optional |
+| `yAxisHasLabel` | Show Y axis labels     | `boolean`              | Optional |
+| `yAxisHasTick`  | Show Y axis ticks      | `boolean`              | Optional |
 
 #### `generate_sankey_chart`
 
-Used to generate Sankey diagrams.
+Generates Sankey diagrams.
 
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `sourceField` - Source node field name (required)
-- `targetField` - Target node field name (required)
-- `valueField` - Value field name (required)
-
-#### `generate_liquid_chart`
-
-Used to generate liquid charts, suitable for displaying dynamic data and progress.
-
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `valueField` - Value field name (required)
-
-#### `generate_venn_chart`
-
-Used to generate Venn diagrams, suitable for displaying relationships between sets.
-
-**Parameters:**
-
-- `dataTable` - Array of data objects (required)
-- `setFields` - Array of set field names (required)
-- `valueField` - Value field name (required)
+| Parameter     | Description       | Type     | Required |
+| ------------- | ----------------- | -------- | -------- |
+| `dataTable`   | Data object array | `any[]`  | Yes      |
+| `sourceField` | Source node field | `string` | Yes      |
+| `targetField` | Target node field | `string` | Yes      |
+| `valueField`  | Value field       | `string` | Yes      |
 
 #### `generate_heatmap_chart`
 
-Used to generate heatmaps, suitable for displaying data density and distribution.
+Generates heatmaps, suitable for displaying data density and distribution.
 
-**Parameters:**
+| Parameter       | Description            | Type/Options           | Required |
+| --------------- | ---------------------- | ---------------------- | -------- |
+| `dataTable`     | Data object array      | `any[]`                | Yes      |
+| `xField`        | X axis field name      | `string`               | Yes      |
+| `yField`        | Y axis field name      | `string`               | Yes      |
+| `sizeField`     | Value field name       | `string`               | Yes      |
+| `xAxisType`     | X axis type            | `"band"` \| `"linear"` | Optional |
+| `xAxisOrient`   | X axis position        | `"top"` \| `"bottom"`  | Optional |
+| `xAxisTitle`    | X axis title           | `string`               | Optional |
+| `xAxisHasGrid`  | Show X axis grid lines | `boolean`              | Optional |
+| `xAxisHasLabel` | Show X axis labels     | `boolean`              | Optional |
+| `xAxisHasTick`  | Show X axis ticks      | `boolean`              | Optional |
+| `yAxisType`     | Y axis type            | `"band"` \| `"linear"` | Optional |
+| `yAxisOrient`   | Y axis position        | `"left"` \| `"right"`  | Optional |
+| `yAxisTitle`    | Y axis title           | `string`               | Optional |
+| `yAxisHasGrid`  | Show Y axis grid lines | `boolean`              | Optional |
+| `yAxisHasLabel` | Show Y axis labels     | `boolean`              | Optional |
+| `yAxisHasTick`  | Show Y axis ticks      | `boolean`              | Optional |
 
-- `dataTable` - Array of data objects (required)
-- `xField` - X-axis field name (required)
-- `yField` - Y-axis field name (required)
-- `sizeField` - Value field name (required)
-- `xAxisType` - X-axis type (optional)
-- `xAxisOrient` - X-axis position (optional)
-- `xAxisTitle` - X-axis title (optional)
-- `xAxisHasGrid` - Whether X-axis shows grid lines (optional)
-- `xAxisHasLabel` - Whether X-axis shows labels (optional)
-- `xAxisHasTick` - Whether X-axis shows ticks (optional)
-- `yAxisType` - Y-axis type (optional)
-- `yAxisOrient` - Y-axis position (optional)
-- `yAxisTitle` - Y-axis title (optional)
-- `yAxisHasGrid` - Whether Y-axis shows grid lines (optional)
-- `yAxisHasLabel` - Whether Y-axis shows labels (optional)
-- `yAxisHasTick` - Whether Y-axis shows ticks (optional)
-
-## Installation
-
-### Installing via Smithery
-
-To install vchart-mcp-server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@VisActor/vchart-mcp-server):
-
-```bash
-npx -y @smithery/cli install @VisActor/vchart-mcp-server --client claude
-```
-
-### Prerequisites
-
-- Node.js 18 or higher
-- npm or yarn
-
-### Install from npm
-
-```bash
-npm install -g @visactor/vchart-mcp-server
-```
-
-### Install from source
-
-```bash
-git clone https://github.com/VisActor/vchart-mcp-server.git
-cd vchart-mcp-server
-npm install
-npm run build
-```
 
 ## Usage
 
@@ -338,47 +290,144 @@ To use in desktop applications (such as Trae, Claude, VSCode, Cline, Cherry Stud
 }
 ```
 
-## Usage Examples in AI Conversations
+### Installing via Smithery
 
-After configuration, you can ask AI assistants to create charts:
+To install vchart-mcp-server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@VisActor/vchart-mcp-server):
+
+```bash
+npx -y @smithery/cli install @VisActor/vchart-mcp-server --client claude
+```
+
+## Running with SSE or Streamable Transport
+
+### Install and Start
+
+Install `@visactor/vchart-mcp-server` globally:
+
+```bash
+npm install -g @visactor/vchart-mcp-server
+```
+
+Start the server:
+
+```bash
+# For SSE transport (default endpoint: /sse)
+mcp-server-chart --transport sse
+
+# For Streamable transport (default endpoint: /streamable)
+mcp-server-chart --transport streamable
+```
+
+Then you can access the server at:
+
+- SSE transport: `http://localhost:3001/sse`
+- Streamable transport: `http://localhost:3001/streamable`
+
+### Other CLI Options
+
+```
+Options:
+  -t, --transport <type>   Transport type (stdio, sse, streamable) [default: stdio]
+  -p, --port <port>        Port number for HTTP-based transports [default: 3000]
+  -e, --endpoint <path>    Endpoint path for HTTP-based transports [default: /message]
+  -h, --help               Show this help message
+
+Examples:
+  node index.js                                    # Start with stdio transport
+  node index.js -t sse -p 3000                     # Start with SSE transport on port 3000
+  node index.js -t sse -p 3000 -e /api/sse         # Start with SSE transport on custom endpoint
+  node index.js -t streamable -p 3001 -e /stream   # Start with streamable transport on custom endpoint
+```
+
+## Example Usage in AI Conversations
+
+Once configured, you can ask your AI assistant to create charts:
 
 **"Create an area chart showing monthly sales data"**
 
 ```
-The assistant will use the generate_area_chart tool to create visualization
+The assistant will use the generate_cartesian_chart tool with parameters:
+- chartType: "area"
+- dataTable: your sales data
+- xField: "month"
+- yField: "sales"
 ```
 
 **"Generate a dual-axis chart comparing revenue and user growth"**
 
 ```
-The assistant will use the generate_dual_axis_chart tool with appropriate parameters
+The assistant will use the generate_dual_axis_chart tool with parameters:
+- dataTable: your business data
+- xField: "time"
+- yField: ["revenue", "userGrowth"]
 ```
 
-**"Show me an interactive HTML bar chart for quarterly performance"**
+**"Show me an interactive HTML bar chart of quarterly performance"**
 
 ```
-The assistant will generate an HTML chart that can be embedded in web pages
+The assistant will use the generate_cartesian_chart tool with parameters:
+- chartType: "bar"
+- dataTable: your quarterly data
+- xField: "quarter"
+- yField: "performance"
+- output: "html"
 ```
 
-**"Create a pie chart showing product sales distribution"**
+**"Create a pie chart of product sales share"**
 
 ```
-The assistant will use the generate_pie_chart tool to show data distribution
+The assistant will use the generate_polar_chart tool with parameters:
+- chartType: "pie"
+- dataTable: your sales data
+- categoryField: "product"
+- valueField: "sales"
 ```
 
-**"Draw a scatter plot showing height and weight relationships"**
+**"Draw a scatter plot of height and weight"**
 
 ```
-The assistant will use the generate_scatter_chart tool to analyze data correlations
+The assistant will use the generate_scatter_chart tool with parameters:
+- dataTable: your body data
+- xField: "height"
+- yField: "weight"
+- colorField: "gender" (optional)
 ```
 
-**"Create a radar chart for team capability assessment"**
+**"Create a radar chart for team skill assessment"**
 
 ```
-The assistant will use the generate_radar_chart tool for multi-dimensional display
+The assistant will use the generate_polar_chart tool with parameters:
+- chartType: "radar"
+- dataTable: your assessment data
+- categoryField: "skill"
+- valueField: "score"
+```
+
+**"Generate a Sankey diagram showing data flow"**
+
+```
+The assistant will use the generate_sankey_chart tool with parameters:
+- dataTable: your flow data
+- sourceField: "from"
+- targetField: "to"
+- valueField: "amount"
+```
+
+**"Create a heatmap showing data distribution"**
+
+```
+The assistant will use the generate_heatmap_chart tool with parameters:
+- dataTable: your distribution data
+- xField: "x_category"
+- yField: "y_category"
+- sizeField: "value"
 ```
 
 ## Development
+
+### Prerequisites
+
+- Node.js version >= 22.7.5
 
 ### Build
 
@@ -386,7 +435,7 @@ The assistant will use the generate_radar_chart tool for multi-dimensional displ
 npm run build
 ```
 
-### Development mode (auto-rebuild)
+### Development Mode (Auto Rebuild)
 
 ```bash
 npm run watch
@@ -404,17 +453,51 @@ npm run inspector
 
 ### Debugging
 
-Since MCP servers communicate via stdio, debugging can be challenging. Use MCP Inspector for development:
+Since the MCP server communicates via stdio, debugging can be challenging. Use MCP Inspector for development:
 
 ```bash
 npm run inspector
 ```
 
-Inspector provides a web interface at `http://localhost:3000` for testing tools and debugging.
+### Testing in AI Editors
+
+To test the MCP server in an AI editor, use the following configuration:
+
+```json
+{
+  "mcpServers": {
+    "vchart-mcp-server": {
+      "command": "node",
+      "args": ["/Users/path/to/your/project/vchart-mcp-server/build/index.js"]
+    }
+  }
+}
+```
 
 ## Environment Variables
 
 - `VIMD_IMAGE_SERVER` - Custom image generation server URL (default: https://vmind.visactor.com/export)
+
+## Private Deployment
+
+Currently, images and HTML generated by vchart-mcp-server are produced via [https://vmind.visactor.com/export](https://vmind.visactor.com/export). For private deployment, set the `VIMD_IMAGE_SERVER` environment variable to specify your own image generation server.
+
+```
+{
+  "mcpServers": {
+    "mcp-server-chart": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@visactor/vchart-mcp-server"
+      ],
+      "env": {
+        "VIMD_IMAGE_SERVER": "<YOUR_VIS_REQUEST_SERVER>"
+      }
+    }
+  }
+}
+```
 
 ## License
 

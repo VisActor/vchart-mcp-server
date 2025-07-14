@@ -44,7 +44,7 @@
     "inspector": "npx @modelcontextprotocol/inspector build/index.js"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.0",
+    "@modelcontextprotocol/sdk": "^1.15.0",
     "@visactor/generate-vchart": "^2.0.8",
     "@visactor/vutils": "^1.0.7",
     "axios": "^1.10.0",

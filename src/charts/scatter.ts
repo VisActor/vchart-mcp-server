@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { convertZodToJsonSchema } from "../utils/schema";
+import { z } from 'zod';
+import { convertZodToJsonSchema } from '../utils/schema';
 import {
   BackgroundSchema,
   ChartOutputSchema,
@@ -24,7 +24,7 @@ import {
   YAxisTitleSchema,
   YAxisTypeSchema,
   YFieldSchema,
-} from "./common";
+} from './common';
 
 const schema = z.object({
   output: ChartOutputSchema,
@@ -33,12 +33,11 @@ const schema = z.object({
   dataTable: z
     .array(z.any())
     .describe("Scatter chart data, e.g., [{ x: 34, y: 10, category: 'A' }].")
-    .nonempty({ message: "Scatter chart data cannot be empty." }),
-  transpose: z.boolean().optional(),
+    .nonempty({ message: 'Scatter chart data cannot be empty.' }),
 
   xField: YFieldSchema,
   yField: YFieldSchema,
-  sizeField: z.string().nullish().describe("Numeric field for bubble size."),
+  sizeField: z.string().nullish().describe('Numeric field for bubble size.'),
   colorField: ColorFieldSchema,
 
   chartTheme: ThemeSchema,
@@ -64,9 +63,9 @@ const schema = z.object({
 });
 
 const tool = {
-  name: "generate_scatter_chart",
+  name: 'generate_scatter_chart',
   description:
-    "Generate a scatter chart to visually display the distribution, clustering trends, and correlations of data points in two-dimensional or multi-dimensional space. Suitable for analyzing relationships between variables, outlier detection, and similar scenarios.",
+    'Generate a scatter chart to visually display the distribution, clustering trends, and correlations of data points in two-dimensional or multi-dimensional space. Suitable for analyzing relationships between variables, outlier detection, and similar scenarios.',
   inputSchema: convertZodToJsonSchema(schema),
 };
 
