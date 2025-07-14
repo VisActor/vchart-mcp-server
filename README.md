@@ -259,6 +259,7 @@ Generates heatmaps, suitable for displaying data density and distribution.
 | `yAxisHasLabel` | Show Y axis labels     | `boolean`              | Optional |
 | `yAxisHasTick`  | Show Y axis ticks      | `boolean`              | Optional |
 
+
 ## Usage
 
 To use in desktop applications (such as Trae, Claude, VSCode, Cline, Cherry Studio, Cursor, etc.), add the following MCP server configuration:
@@ -287,6 +288,14 @@ To use in desktop applications (such as Trae, Claude, VSCode, Cline, Cherry Stud
     }
   }
 }
+```
+
+### Installing via Smithery
+
+To install vchart-mcp-server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@VisActor/vchart-mcp-server):
+
+```bash
+npx -y @smithery/cli install @VisActor/vchart-mcp-server --client claude
 ```
 
 ## Running with SSE or Streamable Transport
