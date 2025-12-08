@@ -29,16 +29,36 @@
 
 ## 目录
 
+- [目录](#目录)
 - [功能特性](#功能特性)
   - [图表输出格式](#图表输出格式)
   - [所有图表都支持的公共参数](#所有图表都支持的公共参数)
   - [支持的图表类型和工具](#支持的图表类型和工具)
+    - [`generate_cartesian_chart`](#generate_cartesian_chart)
+    - [`generate_polar_chart`](#generate_polar_chart)
+    - [`generate_hierarchical_chart`](#generate_hierarchical_chart)
+    - [`generate_progress_chart`](#generate_progress_chart)
+    - [`generate_wordcloud_venn`](#generate_wordcloud_venn)
+    - [`generate_range_column_chart`](#generate_range_column_chart)
+    - [`generate_dual_axis_chart`](#generate_dual_axis_chart)
+    - [`generate_scatter_chart`](#generate_scatter_chart)
+    - [`generate_sankey_chart`](#generate_sankey_chart)
+    - [`generate_heatmap_chart`](#generate_heatmap_chart)
 - [使用方法](#使用方法)
+  - [MacOS](#macos)
+  - [Windows 系统](#windows-系统)
+  - [通过 Smithery 安装](#通过-smithery-安装)
 - [使用SSE或Streamable传输方式运行](#使用sse或streamable传输方式运行)
   - [安装与启动](#安装与启动)
   - [其他CLI配置](#其他cli配置)
 - [AI 对话中的使用示例](#ai-对话中的使用示例)
 - [开发](#开发)
+  - [先决条件](#先决条件)
+  - [构建](#构建)
+  - [开发模式（自动重建）](#开发模式自动重建)
+  - [测试](#测试)
+  - [调试](#调试)
+  - [在AI编辑器中测试](#在ai编辑器中测试)
 - [环境变量](#环境变量)
 - [私有化开发](#私有化开发)
 - [许可证](#许可证)
@@ -498,6 +518,8 @@ npm run inspector
   }
 }
 ```
+
+图像生成服务可以参考 https://github.com/VisActor/vchart-mcp-server-export 来私有化部署。
 
 ## 许可证
 
