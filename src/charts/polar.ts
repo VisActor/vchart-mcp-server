@@ -31,11 +31,11 @@ const schema = z.object({
   width: WidthSchema,
   height: HeightSchema,
   dataTable: z
-    .array(z.any())
+    .array(z.object({}).passthrough())
+    .min(1, { message: "Data must not be empty." })
     .describe(
       "Data for the chart, e.g., [{ category: 'Category 01', value: 10 }]."
-    )
-    .nonempty({ message: "Data must not be empty." }),
+    ),
 
   chartType: z.enum(["rose", "radar", "pie"]),
   transpose: z.boolean().optional(),
