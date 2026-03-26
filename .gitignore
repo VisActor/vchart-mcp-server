@@ -49,3 +49,7 @@ pids
 
 # Husky
 .husky/_
+
+
+.omc
+.claude
