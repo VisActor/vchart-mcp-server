@@ -11,6 +11,7 @@ export function convertZodToJsonSchema(
   schema: z.ZodTypeAny,
   name?: string
 ): object {
-  const jsonSchema = zodToJsonSchema(schema, name);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const jsonSchema = zodToJsonSchema(schema as any, name);
   return jsonSchema;
 }
