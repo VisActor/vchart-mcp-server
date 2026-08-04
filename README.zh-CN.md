@@ -332,10 +332,10 @@ npm install -g @visactor/vchart-mcp-server
 
 ```bash
 # For SSE transport (default endpoint: /sse)
-mcp-server-chart --transport sse
+vchart-mcp-server --transport sse
 
 # For Streamable transport (default endpoint: /streamable)
-mcp-server-chart --transport streamable
+vchart-mcp-server --transport streamable
 ```
 
 Then you can access the server at:
@@ -505,7 +505,7 @@ npm run inspector
 ```
 {
   "mcpServers": {
-    "mcp-server-chart": {
+    "vchart-mcp-server": {
       "command": "npx",
       "args": [
         "-y",
